@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class MemberForm {
     @NotEmpty(message = "아이디는 필수 입력 값입니다.")
     @Email(message = "이메일 형식으로 적어라!!")
+    @UniqueEmail(message = "이메일 중복!!")
     @Size(max = 30, message = "아이디는 30자 이하로 입력해주세요.")
     private String email;
 

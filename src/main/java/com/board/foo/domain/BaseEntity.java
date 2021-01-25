@@ -16,11 +16,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class BaseEntity {
 
     @CreatedBy
-    @Column(name ="created_by", length = 30, updatable = false)
+    @Column(name ="created_by", length = 50, updatable = false)
     private String createdBy;
 
     @LastModifiedBy
-    @Column(name="updated_by", length = 20)
+    @Column(name="updated_by", length = 50)
     private String updatedBy;
 
 

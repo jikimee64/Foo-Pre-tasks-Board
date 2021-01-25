@@ -18,17 +18,17 @@ public class MemberService implements UserDetailsService {
 
     @Transactional
     public Long join(Member member){
-        //validateDupicateMember(member); //중복 회원 검증
+        validateDupicateMember(member); //중복 회원 검증
         memberRepository.save(member);
         return member.getId();
     }
 
-//    private void validateDupicateMember(Member member){
-//        List<Member> findMembers = memberRepository.findByUserId(member.getEmail());
-//        if(!findMembers.isEmpty()){
-//            throw new IllegalStateException("이미 존재하는 회원입니다.");
-//        }
-//    }
+    private void validateDupicateMember(Member member){
+        List<Member> findMembers = memberRepository.findAll();
+        if(!findMembers.isEmpty()){
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+    }
     /**
      * Spring Security 필수 메소드 구현
      * @param email 이메일
