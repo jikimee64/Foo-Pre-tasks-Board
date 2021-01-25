@@ -1,5 +1,8 @@
 package com.board.foo.repository;
 
-public class BoardRepository {
+import com.board.foo.domain.Board;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
 }
