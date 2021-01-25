@@ -3,18 +3,16 @@ package com.board.foo.controller;
 import com.board.foo.domain.Member;
 import com.board.foo.dto.MemberForm;
 import com.board.foo.service.MemberService;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
@@ -38,6 +36,9 @@ public class MemberController {
     @PostMapping("/signup")
     public String signUp(
         @Valid MemberForm memberForm, BindingResult result){
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
         log.info("회원가입 Post Controller");
 
         if(result.hasErrors()){
@@ -47,8 +48,9 @@ public class MemberController {
 
         Member member = Member.builder()
             .email(memberForm.getEmail())
-            .password(memberForm.getPassword())
+            .password(bCryptPasswordEncoder.encode(memberForm.getPassword()))
             .name(memberForm.getName())
+            .auth("ROLE_USER")
             .updatedBy(memberForm.getEmail())
             .createdBy(memberForm.getEmail())
             .build();
@@ -58,20 +60,7 @@ public class MemberController {
         log.info("회원가입 완료");
 
         return "redirect:/members/login";
-
     }
-
-    //로그인 페이지
-    @GetMapping("/login")
-    public String login(Model model){
-
-        log.info("로그인 Get Controller");
-
-       // model.addAttribute("memberForm", new MemberForm());
-        log.info("로그인 페이지");
-        return "members/login";
-    }
-
 
 
 }

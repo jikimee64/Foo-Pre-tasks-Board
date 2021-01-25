@@ -35,7 +35,7 @@ public class MemberService implements UserDetailsService {
      * @return UserDetails
      * @throws UsernameNotFoundException 유저가 없을 때 예외 발생
      */
-    @Override // 기본적인 반환 타입은 UserDetails, UserDetails를 상속받은 UserInfo로 반환 타입 지정 (자동으로 다운 캐스팅됨)
+    @Override // 기본적인 반환 타입은 UserDetails, UserDetails를 상속받은 Member로 반환 타입 지정 (자동으로 다운 캐스팅됨)
     public Member loadUserByUsername(String email) throws UsernameNotFoundException { // 시큐리티에서 지정한 서비스이기 때문에 이 메소드를 필수로 구현
         return memberRepository.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException((email)));
