@@ -28,12 +28,12 @@ class MemberServiceTest {
     @Test
     void 회원가입() throws Exception{
 
-        String userId = "아아디";
+        String email = "아아디";
         String password = "패스워드";
         String name = "이름";
 
         Member member = Member.builder()
-            .userId(userId)
+            .email(email)
             .password(password)
             .name(name)
             .build();
@@ -46,22 +46,22 @@ class MemberServiceTest {
     @Test
     void 중복_회원_예외() throws Exception {
         //given
-        String userId = "아아디";
+        String email = "아아디";
         String password = "패스워드";
         String name = "이름";
 
         Member member = Member.builder()
-            .userId(userId)
+            .email(email)
             .password(password)
             .name(name)
             .build();
 
-        String userId2 = "아아디";
+        String email2 = "아아디";
         String password2 = "패스워드2";
         String name2 = "이름2";
 
         Member member2 = Member.builder()
-            .userId(userId2)
+            .email(email)
             .password(password2)
             .name(name2)
             .build();
