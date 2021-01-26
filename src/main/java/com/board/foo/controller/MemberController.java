@@ -3,10 +3,16 @@ package com.board.foo.controller;
 import com.board.foo.domain.Member;
 import com.board.foo.dto.MemberForm;
 import com.board.foo.service.MemberService;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +28,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    //회원가입 페이지
     @GetMapping("/signup")
     public String signUpForm(Model model){
 
@@ -62,5 +67,32 @@ public class MemberController {
         return "redirect:/members/login";
     }
 
+
+    @GetMapping("/login")
+    public String loginForm() {
+        log.info("로그인 페이지");
+        return "members/login";
+    }
+
+    @PostMapping("/login")
+    public String login() {
+
+        log.info("로그인 Post Controller");
+        log.info("로그인 완료");
+        return "/";
+    }
+
+    @GetMapping(value = "/logout")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        log.info("authentication : " + authentication);
+
+        if (authentication != null) {
+            log.info("로그아웃 완료");
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        return "redirect:/";
+    }
 
 }

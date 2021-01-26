@@ -27,7 +27,7 @@
           <!--      로그인 미상태    -->
           <div sec:authorize-expr="!isAuthenticated()">
 
-            <a class="nav-link" href="/members/login" >로그인</a>
+            <a class="nav-link" href="/login" >로그인</a>
 
           </div>
 
@@ -36,7 +36,7 @@
           <a class="nav-link" href="/members/signup">회원가입</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/members/board">게시판</a>
+          <a class="nav-link" href="/boards/boardList">게시판</a>
         </li>
       </ul>
       ul

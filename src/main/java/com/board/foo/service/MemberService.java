@@ -3,6 +3,7 @@ package com.board.foo.service;
 import com.board.foo.domain.Member;
 import com.board.foo.repository.MemberRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,8 +25,8 @@ public class MemberService implements UserDetailsService {
     }
 
     private void validateDupicateMember(Member member){
-        List<Member> findMembers = memberRepository.findAll();
-        if(!findMembers.isEmpty()){
+        Optional<Member> byEmail = memberRepository.findByEmail(member.getEmail());
+        if(!byEmail.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }

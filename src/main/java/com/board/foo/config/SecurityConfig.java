@@ -1,5 +1,7 @@
 package com.board.foo.config;
 
+import com.board.foo.handler.CustomAuthFailureHandler;
+import com.board.foo.handler.CustomAuthSuccessHandler;
 import com.board.foo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -28,20 +32,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**",
             "/images/**", "/css/**", "/img/**", "/js/**",
             "/console/**", "/favicon.ico/**", "/assets/**",
-            "/dist/**", "/error");
+            "/dist/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/board/**", "/members/**", "/").permitAll()
+                    .antMatchers("/members/**", "/", "/login").permitAll()
                     .anyRequest().authenticated()
                     .and()
             .csrf()
                     .disable()
             .formLogin()
-                    .loginPage("/members/login")
+                    .loginPage("/login")
                     .defaultSuccessUrl("/")
+                    //.failureUrl("/login?error")
+                    .successHandler(successHandler())
+                    //.failureHandler(failureHandler())
             .and()
                     .logout()
                     .logoutSuccessUrl("/")
@@ -51,6 +58,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler(){
+        return new CustomAuthSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler failureHandler(){
+        return new CustomAuthFailureHandler();
     }
 
 }
