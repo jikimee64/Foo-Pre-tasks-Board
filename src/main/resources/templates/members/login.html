@@ -5,7 +5,7 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <div class="container">
 
-  <form role="form" action="/login"
+  <form role="form" th:action="@{/login}"
         method="post">
 
     <div class="form-group">
@@ -18,6 +18,10 @@
       <label th:for="password">비밀번호</label>
       <input type="text" name="password" class="form-control"
              placeholder="비밀번호를 입력하세요">
+    </div>
+
+    <div th:if="${param.error}">
+      <p class="error-message" th:text="${errorMessage}">User Name or Password invalid, please verify</p>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

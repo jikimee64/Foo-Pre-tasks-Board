@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @Slf4j
 public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
 
-    private final String DEFAULT_FAILURE_URL = "/login";
+    private final String DEFAULT_FAILURE_URL = "/login?error=true";
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
