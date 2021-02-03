@@ -1,5 +1,6 @@
 package com.board.foo.domain;
 
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,26 +17,29 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "board")
-public class Board extends BaseEntity{
+public class Board extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
     private Long id;
 
     private String title;
 
-    @Lob
+    @Column(length = 2000)
     private String contents;
 
     private String writer;
 
-    private String hit;
+    private Integer hit;
 
     @Builder
-    public Board(String title, String contents, String writer, String hit) {
+    public Board(String title, String contents, String writer, String createdBy,
+        String updatedBy) {
         this.title = title;
         this.contents = contents;
         this.writer = writer;
+        this.hit = 0;
+        super.setCreatedBy(createdBy);
+        super.setUpdatedBy(updatedBy);
     }
 }

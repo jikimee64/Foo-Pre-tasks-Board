@@ -21,11 +21,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "member")
-public class Member extends BaseEntity implements UserDetails {
+public class Member extends BaseTimeEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long id;
 
     @Column(name = "email", unique = true)
@@ -48,7 +47,7 @@ public class Member extends BaseEntity implements UserDetails {
         this.name = name;
         this.auth = auth;
         super.setCreatedBy(createdBy);
-        super.setUpdatedBy(createdBy);
+        super.setUpdatedBy(updatedBy);
     }
 
     // 사용자의 권한을 콜렉션 형태로 반환

@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/members/**", "/", "/login").permitAll()
+                    .antMatchers("/members/**", "/", "/login", "/boards/**").permitAll() // boards/**는 임시
                     .anyRequest().authenticated()
                     .and()
             .csrf()

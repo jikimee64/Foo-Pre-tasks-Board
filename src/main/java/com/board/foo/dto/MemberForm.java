@@ -3,15 +3,19 @@ package com.board.foo.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class MemberForm {
+
     @NotEmpty(message = "아이디는 필수 입력 값입니다.")
     @Email(message = "이메일 형식으로 적어라!!")
     @UniqueEmail(message = "이메일 중복!!")

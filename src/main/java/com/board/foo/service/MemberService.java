@@ -11,13 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
-    @Transactional
     public Long join(Member member){
         validateDupicateMember(member); //중복 회원 검증
         memberRepository.save(member);

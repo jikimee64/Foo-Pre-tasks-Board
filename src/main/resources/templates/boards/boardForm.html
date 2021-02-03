@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/header :: header"/>
+
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<article>
+  <div class="container" role="main">
+    <h2>게시글 등록</h2>
+
+
+    <form role="form" action="/boards/boardSave" th:object="${boardForm}" method="post" >
+
+      <div class="mb-3">
+        <label th:for="title">제목</label>
+
+        <input type="text" th:field="*{title}" class="form-control"
+               placeholder="제목을 입력하세요"
+               th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
+        <p th:if="${#fields.hasErrors('title')}"
+           th:errors="*{title}">Incorrect date</p>
+
+      </div>
+
+      <div class="mb-3">
+        <label th:for="contents">내용</label>
+
+        <textarea type="text" rows="5" th:field="*{contents}" class="form-control"
+               placeholder="내용을 입력하세요"
+                  th:class="${#fields.hasErrors('contents')}? 'form-control fieldError' : 'form-control'"></textarea>
+        <p th:if="${#fields.hasErrors('contents')}"
+           th:errors="*{contents}">Incorrect date</p>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-sm btn-primary">저장</button>
+        <a class="btn btn-sm btn-primary" href="/boards/boardList" >목록</a>
+      </div>
+    </form>
+  </div>
+</article>
+</body>
+
+</html>

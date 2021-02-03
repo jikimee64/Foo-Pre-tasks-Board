@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Transactional
 class MemberServiceTest {
 
     @Autowired

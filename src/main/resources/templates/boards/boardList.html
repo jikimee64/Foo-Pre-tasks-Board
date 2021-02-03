@@ -9,6 +9,7 @@
   <table class="table table-hover">
     <thead>
     <tr>
+      <th scope="col" class="text-center">번호</th>
       <th scope="col" class="text-center">제목</th>
       <th scope="col" class="text-center">글쓴이</th>
       <th scope="col" class="text-center">작성일</th>
@@ -17,9 +18,10 @@
     </thead>
     <tbody>
     <tr th:each="board : ${boardList}">
+      <td th:text="${board.id}"></td>
       <td th:text="${board.title}"></td>
-      <td th:text="${board.contents}"></td>
       <td th:text="${board.writer}"></td>
+      <td th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd')}"></td>
       <td th:text="${board.hit}"></td>
     </tr>
     </tbody>
@@ -31,20 +33,9 @@
 
   </p>
 
-
-  <!-- 새글쓰기 누를 때 -->
-  <form action="/board/boardWriter" method="post">
-
-    <!-- 새글의 계층 정보 -->
-    <input type="hidden" name="bdGroup" value="-1">
-    <input type="hidden" name="bdOrder" value="0">
-    <input type="hidden" name="bdIndent" value="0">
-    <button type="submit" class="btn btn-secondary mb-3">새글쓰기</button>
-  </form>
-
+    <a class="btn btn-secondary mb-3" href="/boards/boardForm" >새글쓰기</a>
 
   <!-- 출력할 메세지가 담겨왔을 경우(게시물이 없을 경우 등) -->
-
   <div class="container my-3">
     <div class="row">
       <div class="col"></div>
