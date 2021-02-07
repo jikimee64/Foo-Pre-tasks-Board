@@ -42,4 +42,9 @@ public class Board extends BaseTimeEntity{
         super.setCreatedBy(createdBy);
         super.setUpdatedBy(updatedBy);
     }
+
+    public void changeBoard(String title, String contents){
+        this.title = title;
+        this.contents = contents;
+    }
 }

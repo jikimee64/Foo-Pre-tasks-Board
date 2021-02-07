@@ -33,12 +33,17 @@
       </div>
 
       <div>
-        <button type="submit" class="btn btn-sm btn-primary">저장</button>
+
+        <a th:if="${board?.writer} == ${#authentication.name}" th:href="'/boards/boardUpdate?id='+${board.id}"
+                class="btn btn-sm btn-info" id="update">수정</a>
+
+
+        <a class="btn btn-danger btn-sm" th:if="${board?.writer} == ${#authentication.name}"
+           th:href="'/boards/boardDelete?id='+${board.id}+'&email='+${board.writer}">삭제</a>
         <a class="btn btn-sm btn-primary" href="/boards/boardList" >목록</a>
       </div>
     </form>
   </div>
 </article>
 </body>
-
 </html>

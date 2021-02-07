@@ -11,13 +11,17 @@ import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -84,4 +88,38 @@ public class BoardController {
         return "redirect:/boards/boardDetail";
     }
 
+
+    @GetMapping("/boardUpdate")
+    public String updateForm(Model model, @RequestParam("id") Long id){
+        log.info("게시글 수정 Get Controller");
+
+        model.addAttribute("board",  boardService.boardDetail(id).orElseThrow(()
+            -> new NoSuchElementException()));
+        model.addAttribute("boardForm", new BoardForm());
+
+        return "boards/boardUpdateForm";
+    }
+
+    @PreAuthorize("isAuthenticated() and (( #boardForm.getWriter() == principal.username ) or hasRole('ROLE_ADMIN'))")
+    @PostMapping("/boardUpdate")
+    public String update( @Valid BoardForm boardForm, RedirectAttributes redirectAttributes ){
+        log.info("게시글 수정 POST Controller");
+
+        boardService.boardUpdate(boardForm);
+
+        redirectAttributes.addAttribute("id", boardForm.getId());
+
+        return "redirect:/boards/boardDetail";
+
+
+    }
+
+    @PreAuthorize("isAuthenticated() and (( #email == principal.username ) or hasRole('ROLE_ADMIN'))")
+    @GetMapping("/boardDelete")
+    public String delete(@RequestParam("id") Long id, @RequestParam("email") String email){
+        log.info("이메일 " + email);
+        log.info("게시글 삭제 GET Controller");
+        boardService.boardDelete(id);
+        return "redirect:/boards/boardList";
+    }
 }
