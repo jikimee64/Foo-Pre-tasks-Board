@@ -11,6 +11,10 @@ import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,11 +39,15 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boardList")
-    public String boardList(Model model){
+    public String boardList(@PageableDefault Pageable pageable,
+        Model model){
 
         log.info("게시판 리스트 Get Controller");
+        log.info("pageable : " + pageable);
 
-        List<Board> boardList = boardService.findBoardList();
+        Page<Board> boardList = boardService.findBoardList(pageable);
+        boardList.stream().forEach(e -> e.getContents());
+
         model.addAttribute("boardList", boardList);
 
         return "boards/boardList";
@@ -62,6 +70,7 @@ public class BoardController {
 
         return "boards/boardDetail";
     }
+
 
     @PostMapping("/boardSave")
     public String boardSave(@Valid BoardForm boardForm, BindingResult result, RedirectAttributes redirectAttributes){
